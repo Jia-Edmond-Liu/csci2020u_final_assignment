@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <center>
+        <SplitPane dividerPositions="0.5">
+         <items>
+            <ListView fx:id="musicList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" />
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+                  <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+              </columnConstraints>
+                <children>
+                    <ImageView fx:id="albumCover" GridPane.columnIndex="0" GridPane.columnSpan="3" />
+                    <Label fx:id="songName" prefHeight="17.0" prefWidth="200" text="Song Name" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+                    <ProgressBar fx:id="songProg" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <ImageView fitHeight="270.0" fitWidth="283.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                     <image>
+                        <Image url="@../../assets/black.jpg" />
+                     </image></ImageView>
+                  <Slider fx:id="volumeControl" orientation="VERTICAL" prefHeight="251.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+
+                </children>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </items></SplitPane>
+    </center>
+</BorderPane>
