@@ -1,27 +1,21 @@
 package sample;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+        import javafx.fxml.FXML;
+        import javafx.scene.control.ListView;
+        import javafx.scene.control.Slider;
+        import javafx.scene.image.ImageView;
+        import javafx.stage.FileChooser;
+        import javafx.stage.Stage;
 
-import javax.swing.text.html.ListView;
-import java.io.InputStream;
-import java.util.Observable;
-
+        import java.io.File;
 
 public class Controller {
-    @FXML
-    ImageView albumCover;
-    @FXML
-    ListView listView;
-    @FXML
-    Slider slider;
+    Stage primaryStage = Main.getStage();
 
-
-    ObservableList<String> musicFolder = FXCollections.observableArrayList();
+    @FXML ImageView albumCover;
+    @FXML ListView friendList;
+    @FXML Slider volume;
+    @FXML Slider songProg;
 
     public void initialize(){
 
@@ -31,7 +25,46 @@ public class Controller {
 
     }
 
+    @FXML public void uploadSong(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Audio","*.mp3"));
+        File track = fileChooser.showOpenDialog(primaryStage);
+
+        Song song = new Song(track);
+        song.uploadTrack();
+    }
+
+    @FXML public void setArtist(){
+
+    }
+    @FXML public void setAlbum(){
+
+    }
+    @FXML public void setArt(){
+
+    }
+    @FXML public void setName(){
+
+    }
+
+
+
     @FXML public void exit(){
+
+    }
+
+    @FXML public void share(){
+
+    }
+
+    @FXML public void goBack(){
+
+    }
+    @FXML public void playPause(){
+
+    }
+    @FXML public void goForward(){
 
     }
 }
