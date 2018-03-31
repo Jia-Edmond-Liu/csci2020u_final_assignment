@@ -4,6 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -23,12 +27,21 @@ public class Main extends Application {
 
         primaryStage.setTitle("Fresh Music Stream");
         this.primaryStage = primaryStage;
-
         primaryStage.setScene(new Scene(root));
 
         //Server server = new Server();
         //server.start();
 
+        /* LOGIN SCREEN MAYBE SPLASH SCREEN TEMP TEMP
+        File art = new File("assets/black.jpg");
+        ImageView imgView = new ImageView(new Image(art.toURI().toString()));
+        BorderPane t = new BorderPane(imgView);
+        Stage splash = new Stage();
+        splash.setScene(new Scene(t,666,527));
+        splash.show();
+        Thread.sleep(2500);
+        splash.close();
+        */
         primaryStage.show();
     }
 
