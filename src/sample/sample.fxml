@@ -10,7 +10,6 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -27,12 +26,18 @@
                         <SeparatorMenuItem />
                         <MenuItem accelerator="Ctrl+O" onAction="#uploadSong" text="Upload Song" />
                         <SeparatorMenuItem />
-                        <MenuItem text="Edit Song Details" onAction="#editDetails"/>
-                        <SeparatorMenuItem/>
+                        <MenuItem onAction="#editDetails" text="Edit Song Details" />
+                        <SeparatorMenuItem />
                         <MenuItem accelerator="Ctrl+Q" onAction="#exit" text="Exit Application" />
-
                     </items>
                 </Menu>
+        <Menu text="Social">
+            <items>
+                <MenuItem fx:id="sign" onAction="#signIn" text="Sign In" />
+                <SeparatorMenuItem />
+                <MenuItem onAction="#addFriend" text="Add Friend" />
+            </items>
+        </Menu>
         </MenuBar>
     </top>
     <center>
@@ -58,7 +63,7 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" />
               </rowConstraints>
                <children>
-                  <Slider fx:id="volume" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" GridPane.rowIndex="1">
+                  <Slider fx:id="volume" max="1.0" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="50.0" />
                      </GridPane.margin>
@@ -69,12 +74,12 @@
                         <Insets bottom="25.0" />
                      </GridPane.margin>
                   </Slider>
-                  <Label fx:id="songLabel" text="Song Name" minHeight="-Infinity" minWidth="-Infinity"  GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <Label fx:id="songLabel" minHeight="-Infinity" minWidth="-Infinity" text="Song Name" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                           <GridPane.margin>
                               <Insets bottom="-25" />
                           </GridPane.margin>
                   </Label>
-                   <Label fx:id="artistLabel" text="Artist" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                   <Label fx:id="artistLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Unknown Artist" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                    <GridPane.margin>
                        <Insets top="-50" />
                    </GridPane.margin>
@@ -82,12 +87,12 @@
                      <Button mnemonicParsing="false" onAction="#share" text="Share" GridPane.columnIndex="4" GridPane.valignment="BOTTOM" />
                      <Button mnemonicParsing="false" onAction="#goBack" text="Prev" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                    <!-- Make this one dynamic so changes between play pause-->
-                     <Button mnemonicParsing="false" fx:id="playButton" onAction="#playPause" text="Play" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+                     <Button fx:id="playButton" mnemonicParsing="false" onAction="#playPause" text="Play" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                      <Button mnemonicParsing="false" onAction="#goForward" text="Next" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
 
                </children>
             </GridPane>
-                 <TextArea maxHeight="150" text="TEMP" />
+                 <ListView fx:id="queue" maxHeight="150" />
              </VBox>
          </items></SplitPane>
     </center>

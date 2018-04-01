@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 public class Song {
     private String songName;
@@ -28,8 +29,10 @@ public class Song {
 
     public Song(File file){
         this.track = file;
-        this.songName = file.getName();
+         String temp[] = file.getName().split(Pattern.quote("."));
+         this.songName = temp[0];
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
+        song.setVolume(0.5);
         song.play();
     }
     public Song(){
@@ -44,13 +47,15 @@ public class Song {
         Stage edit = new Stage();
         edit.setTitle("Change Song Details");
         GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10));
+        gridPane.setPadding(new Insets(20));
 
         TextField songField = new TextField();
+        gridPane.setMargin(songField, new Insets(10));
         songField.setPromptText(songName);
         gridPane.add(songField,0,0);
 
         TextField artistField = new TextField();
+        gridPane.setMargin(artistField, new Insets(10));
         if (artist.isEmpty()) {
             artistField.setPromptText("Artist");
         } else {
@@ -60,6 +65,7 @@ public class Song {
 
 
         TextField albumField = new TextField();
+        gridPane.setMargin(albumField, new Insets(10));
         if (album.isEmpty()) {
             albumField.setPromptText("Album");
         } else {
@@ -68,14 +74,18 @@ public class Song {
         gridPane.add(albumField,0,2);
 
         Label cover=  new Label("Album Art");
+        gridPane.setMargin(cover, new Insets(10));
         Button uploadPic = new Button("Select File");
+        gridPane.setMargin(uploadPic, new Insets(10));
         gridPane.add(cover,0,3);
         gridPane.add(uploadPic, 1, 3);
+        gridPane.setHgap(5);
+        gridPane.setVgap(10);
         uploadPic.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Pictures", ".png", ".jpeg"));
+                fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Pictures", ".png", ".jpeg",".jpg"));
                 File art = fileChooser.showOpenDialog(edit);
                 Image albumArt = new Image(art.toURI().toString());
             }
