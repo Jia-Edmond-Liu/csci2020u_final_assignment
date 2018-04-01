@@ -1,0 +1,19 @@
+apply plugin:'java'
+
+repositories{
+    mavenCentral()
+}
+
+sourceSets{
+    main {
+        resources{
+            srcDirs = ["src/sample"]
+            includes = ["**/*.fxml"]
+        }
+    }
+}
+
+task(run, dependsOn: 'classes', type: JavaExec){
+    main = 'Main'
+    classpath = sourceSets.main.runtimeClasspath
+}
