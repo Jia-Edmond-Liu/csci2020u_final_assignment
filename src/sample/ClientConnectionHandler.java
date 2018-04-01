@@ -50,9 +50,45 @@ public class ClientConnectionHandler implements Runnable {
         socket_out.flush();
     }
 
+    private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
+        File file = new File("[INSERT LOCATION TO UPLOAD HERE]",fileName);
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        else{
+            file.delete();
+            file.createNewFile();
+        }
+        String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
+        try
+        {
+            OutputStream out = socket.getOutputStream();
+            DataOutputStream dout = new DataOutputStream(out);
+            dout.writeUTF(extension);
+            out.flush();
+
+            FileInputStream in = new FileInputStream(file);
+            BufferedInputStream bin = new BufferedInputStream(in);
+            byte[] bytes = new byte[(int)file.length()];
+            bin.read(bytes,0,bytes.length);
+            out.write(bytes,0,bytes.length);
+            out.close();
+            dout.close();
+            in.close();
+
+        }
+        catch(IOException e){
+            System.out.println("IO Error");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
-    private void cmdUPLOAD(String fileName) throws IOException{
+
+//THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
+    private void cmdUPLOAD_TEXT(String fileName) throws IOException{
         try{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -81,7 +117,7 @@ public class ClientConnectionHandler implements Runnable {
 
 
 
-    private void cmdDownload(String fileName) throws IOException{
+    private void cmdDownload_TEXT(String fileName) throws IOException{
         String out = "", line = "";
         File file = new File(ROOT, fileName);
         BufferedReader in = new BufferedReader(new FileReader(file));
