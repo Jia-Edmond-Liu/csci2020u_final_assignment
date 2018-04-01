@@ -22,9 +22,9 @@ public class Server extends  Thread{
             try {
                 Socket socket = serverSocket.accept();
 
-                Thread client = new Thread((Runnable) new Client(socket));
-                threads.add(client);
-                client.start();
+                //Thread client = new Thread((Runnable) new Client(socket));
+                //threads.add(client);
+                //client.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
