@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientConnectionHandler implements Runnable {
@@ -38,13 +39,6 @@ public class ClientConnectionHandler implements Runnable {
 
     private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
         File file = new File("[INSERT LOCATION TO UPLOAD HERE]",fileName);
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        else{
-            file.delete();
-            file.createNewFile();
-        }
         String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
         try
         {
@@ -55,7 +49,7 @@ public class ClientConnectionHandler implements Runnable {
 
             FileInputStream in = new FileInputStream(file);
             BufferedInputStream bin = new BufferedInputStream(in);
-            byte[] bytes = new byte[(int)file.length()];
+            byte[] bytes = new byte[16*1024];
             bin.read(bytes,0,bytes.length);
             out.write(bytes,0,bytes.length);
             out.close();
@@ -101,6 +95,27 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
+    private void cmdDOWNLOAD_MEDIA(String fileName) throws IOException{
+        int count;
+        try{
+            ServerSocket servSocket = new ServerSocket(Main.getPort());
+            socket = servSocket.accept();
+            InputStream in = socket.getInputStream();
+            byte[] bytes = new byte[16*1024];
+            DataInputStream din = new DataInputStream(socket.getInputStream());
+            String extension = din.readUTF();
+            String path = ROOT + "/" + fileName + "." + extension;
+            File file = new File(path);
+            OutputStream out = new FileOutputStream(file);
+            while((count = in.read(bytes))>0){
+                out.write(bytes,0,count);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
 
     private void cmdDownload_TEXT(String fileName) throws IOException{
