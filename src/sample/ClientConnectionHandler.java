@@ -1,6 +1,10 @@
 package sample;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class ClientConnectionHandler implements Runnable {
@@ -36,8 +40,8 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
-        File file = new File("[INSERT LOCATION TO UPLOAD HERE]",fileName);
+    public void cmdUPLOAD_MEDIA(String fileName) throws IOException{
+        File file = new File("Server/Music",fileName);
         if(!file.exists()){
             file.createNewFile();
         }
@@ -52,7 +56,27 @@ public class ClientConnectionHandler implements Runnable {
             DataOutputStream dout = new DataOutputStream(out);
             dout.writeUTF(extension);
             out.flush();
+            dout.flush();
 
+            AudioInputStream in= AudioSystem.getAudioInputStream(new File("test.mp3"));
+            System.out.println("caught");
+            AudioInputStream din = null;
+            AudioFormat baseFormat = in.getFormat();
+            AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+                    baseFormat.getSampleRate(),
+                    16,
+                    baseFormat.getChannels(),
+                    baseFormat.getChannels() * 2,
+                    baseFormat.getSampleRate(),
+                    false);
+            din = AudioSystem.getAudioInputStream(decodedFormat, in);
+
+            while (true){
+                int currentByte = din.read();
+                if (currentByte == -1) break;
+
+                out.write(currentByte);
+            }            /*
             FileInputStream in = new FileInputStream(file);
             BufferedInputStream bin = new BufferedInputStream(in);
             byte[] bytes = new byte[(int)file.length()];
@@ -61,7 +85,7 @@ public class ClientConnectionHandler implements Runnable {
             out.close();
             dout.close();
             in.close();
-
+*/
         }
         catch(IOException e){
             System.out.println("IO Error");
@@ -71,10 +95,10 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-
+/*
 
 //THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
-    private void cmdUPLOAD_TEXT(String fileName) throws IOException{
+    public void cmdUPLOAD_TEXT(String fileName) throws IOException{
         try{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -101,8 +125,6 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-
-
     private void cmdDownload_TEXT(String fileName) throws IOException{
         String out = "", line = "";
         File file = new File(ROOT, fileName);
@@ -113,5 +135,12 @@ public class ClientConnectionHandler implements Runnable {
         socket_out.print(out);
         socket_out.flush();
     }
+
+
+    private  void connectToServer()throws IOException{
+        socket = new Socket(InetAddress.getByName(socket.getInetAddress()),Main.getPort());
+    }
+    */
+
 
 }

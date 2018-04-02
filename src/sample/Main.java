@@ -36,10 +36,14 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setScene(new Scene(root));
 
-        //Server server = new Server();
-        //server.start();
+        Server server = new Server();
+       server.start();
 
-        // LOGIN SCREEN MAYBE SPLASH SCREEN TEMP TEMP
+        // LOGIN SCREEN
+        showSplashScreen();
+    }
+
+    public static void showSplashScreen(){
         File art = new File("assets/black.jpg");
         ImageView imgView = new ImageView(new Image(art.toURI().toString()));
         imgView.setFitHeight(250);
