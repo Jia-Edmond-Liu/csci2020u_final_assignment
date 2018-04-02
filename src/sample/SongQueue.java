@@ -13,10 +13,10 @@ public class SongQueue {
         String output = "";
         for(int i = 0; i < queuedSongs.size();i++){
             if(i < queuedSongs.size() - 1){
-                output = queuedSongs.get(i) + ";";
+                output += queuedSongs.get(i) + ";";
             }
             else{
-                output = queuedSongs.get(i);
+                output += queuedSongs.get(i);
             }
         }
         return output;
