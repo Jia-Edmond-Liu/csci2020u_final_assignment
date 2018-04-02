@@ -38,7 +38,7 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
-        File file = new File("[INSERT LOCATION TO UPLOAD HERE]",fileName);
+        File file = new File("[INSERT LOCATION TO UPLOAD FROM HERE]",fileName);
         String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
         try
         {
@@ -73,7 +73,7 @@ public class ClientConnectionHandler implements Runnable {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             String response;
-            File tempFile = new File("[INSERT LOCATION TO UPLOAD HERE", fileName);
+            File tempFile = new File("[INSERT LOCATION TO UPLOAD FROM HERE", fileName);
             if (!tempFile.exists()){
                 tempFile.createNewFile();
             }
