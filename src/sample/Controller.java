@@ -15,6 +15,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Controller implements Runnable{
     Stage primaryStage = Main.getStage();
@@ -34,6 +35,15 @@ public class Controller implements Runnable{
     public void initialize(){
         refreshDetails();
         //if (song.getStatus())
+        songProg.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                if (songProg.isValueChanging()){
+                    song.getSong().seek(new Duration(songProg.getValue()/100.0));
+                }
+            }
+        });
+
         volume.setValue(song.getSong().getVolume());
         volume.valueProperty().addListener(new InvalidationListener() {
             @Override
@@ -52,7 +62,7 @@ public class Controller implements Runnable{
     //idea is to have a listener for the song's progress
 
     //upload a song to the server
-    @FXML public void uploadSong(){
+    @FXML public void uploadSong() throws IOException {
         //choose a song to upload
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
@@ -68,18 +78,15 @@ public class Controller implements Runnable{
 
     @FXML public void editDetails(){
         song.editDetails();
-        songLabel.setText(song.getSongName());
-        artistLabel.setText(song.getArtist());
-        albumCover.setImage(song.getAlbumArt());
+        refreshDetails();
     }
 
-    @FXML public void exit() throws FileNotFoundException {
-        client.setLastPlayed(song);
+    //TO DO doesnt work
+    @FXML public void exit() throws IOException {
+        Client t = new Client("temp");
+        t.setLastPlayed(song);
+        System.out.println(client.getDisplayName());
         primaryStage.close();
-    }
-
-    @FXML public void share(){
-
     }
 
     @FXML public void goBack(){
@@ -100,9 +107,11 @@ public class Controller implements Runnable{
         }
     }
 
-    @FXML public void signIn(){
-
+    @FXML public void changeUser(){
+        Main.showSplashScreen();
+        Main.getStage().close();
     }
+
     @FXML public void addFriend(){
 
     }

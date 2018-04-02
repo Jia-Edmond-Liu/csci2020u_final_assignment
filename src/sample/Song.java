@@ -14,7 +14,10 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.regex.Pattern;
 
 public class Song {
@@ -22,19 +25,18 @@ public class Song {
     private MediaPlayer song;
     private String artist;
     private File track;
-    private Image albumArt;
+    private static Image albumArt;
+    File art = new File("assets/defaultCover.png");
 
     public Song(File file){
-        albumArt = new Image(new File("assets/defaultCover.png").toURI().toString());
+        albumArt = new Image(art.toURI().toString());
         this.track = file;
-         String temp[] = file.getName().split(Pattern.quote("."));
-         this.songName = temp[0];
+        String temp[] = file.getName().split(Pattern.quote("."));
+        this.songName = temp[0];
+        this.artist = "Unknown Artist";
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
         song.setVolume(0.5);
         //song.play();
-    }
-    public Song(){
-
     }
 
     public MediaPlayer getSong(){
@@ -49,6 +51,12 @@ public class Song {
 
         TextField songField = new TextField();
         gridPane.setMargin(songField, new Insets(10));
+        if (songName.isEmpty()) {
+            songField.setPromptText("Artist");
+        } else {
+            songField.setPromptText(artist);
+        }
+
         songField.setPromptText(songName);
         gridPane.add(songField,0,0);
 
@@ -75,8 +83,10 @@ public class Song {
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Pictures", ".png", ".jpeg",".jpg"));
-                File art = fileChooser.showOpenDialog(edit);
-                Image albumArt = new Image(art.toURI().toString());
+                fileChooser.setInitialDirectory(new File("."));
+                art = fileChooser.showOpenDialog(edit);
+                System.out.println(art.toURI().toString());
+
             }
         });
 
@@ -87,6 +97,8 @@ public class Song {
             public void handle(ActionEvent event) {
                 songName = songField.getText();
                 artist = artistField.getText();
+                System.out.println(art.toURI().toString());
+                setAlbumArt(new Image(art.toURI().toString()));
                 edit.close();
             }
         });
@@ -103,12 +115,22 @@ public class Song {
         return albumArt;
     }
 
+    public void setAlbumArt(Image albumArt) {
+        this.albumArt = albumArt;
+    }
+
     public String getArtist() {
         return artist;
     }
 
-    public void uploadTrack(){
+    public File getTrack() {
+        return track;
+    }
 
+    public void uploadTrack() throws IOException {
+        Socket socket = new Socket(Main.getHost(), Main.getPort());
+        ClientConnectionHandler cch = new ClientConnectionHandler(socket);
+        cch.cmdDOWNLOAD_MEDIA(songName);
     }
 
 }

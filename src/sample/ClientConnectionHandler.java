@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientConnectionHandler implements Runnable {
-    public static String ROOT = "[INSERT ROOT HERE]/";
+    public static String ROOT = "Server";
     private Socket socket;
     private PrintWriter socket_out;
 
@@ -38,7 +38,7 @@ public class ClientConnectionHandler implements Runnable {
     }
 
     private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
-        File file = new File("[INSERT LOCATION TO UPLOAD FROM HERE]",fileName);
+        File file = new File("Client",fileName);
         String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
         try
         {
@@ -67,21 +67,14 @@ public class ClientConnectionHandler implements Runnable {
 
 
 
-//THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
-    private void cmdUPLOAD_TEXT(String fileName) throws IOException{
+    //THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
+    public void cmdUPLOAD_TEXT(String fileName) throws IOException{
         try{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             String response;
-            File tempFile = new File("[INSERT LOCATION TO UPLOAD FROM HERE", fileName);
-            if (!tempFile.exists()){
-                tempFile.createNewFile();
-            }
-            else{
-                tempFile.delete();
-                tempFile.createNewFile();
-            }
-            System.out.print(tempFile.getParent());
+            File tempFile = new File(ROOT, fileName);
+
             PrintWriter socket_out = new PrintWriter(tempFile);
             while((response = in.readLine()) != null){
                 socket_out.println(response);
@@ -95,16 +88,15 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    private void cmdDOWNLOAD_MEDIA(String fileName) throws IOException{
+    public void cmdDOWNLOAD_MEDIA(String fileName) throws IOException{
         int count;
         try{
-            ServerSocket servSocket = new ServerSocket(Main.getPort());
-            socket = servSocket.accept();
+            //Socket socket = new Socket(Main.getHost(), Main.getPort());
             InputStream in = socket.getInputStream();
             byte[] bytes = new byte[16*1024];
             DataInputStream din = new DataInputStream(socket.getInputStream());
             String extension = din.readUTF();
-            String path = ROOT + "/" + fileName + "." + extension;
+            String path =  ROOT + "/Music/" + fileName + "." + extension;
             File file = new File(path);
             OutputStream out = new FileOutputStream(file);
             while((count = in.read(bytes))>0){
@@ -114,7 +106,6 @@ public class ClientConnectionHandler implements Runnable {
         catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
 

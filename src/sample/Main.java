@@ -32,15 +32,20 @@ public class Main extends Application {
         root.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
         Controller controller = (Controller)loader.getController();
 
+        showSplashScreen();
+
         primaryStage.setTitle("Fresh Music Stream");
         this.primaryStage = primaryStage;
         primaryStage.setScene(new Scene(root));
 
-        //Server server = new Server();
-        //server.start();
+        Server server = new Server();
+        server.start();
 
-        // LOGIN SCREEN MAYBE SPLASH SCREEN TEMP TEMP
-        File art = new File("assets/black.jpg");
+        // LOGIN SCREEN
+    }
+
+    public static void showSplashScreen(){
+        File art = new File("assets/splash.png");
         ImageView imgView = new ImageView(new Image(art.toURI().toString()));
         imgView.setFitHeight(250);
         Button submit = new Button("Begin");
