@@ -36,20 +36,6 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    private void cmdDIR(){
-        String out = "";
-        File baseDir = new File(ROOT);
-        File fileList[] = baseDir.listFiles();
-        for (int i = 0; i<fileList.length; i++){
-            out += fileList[i].getName();
-            if (i != fileList.length - 1){
-                out += " ";
-            }
-        }
-        socket_out.print(out);
-        socket_out.flush();
-    }
-
     private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
         File file = new File("[INSERT LOCATION TO UPLOAD HERE]",fileName);
         if(!file.exists()){

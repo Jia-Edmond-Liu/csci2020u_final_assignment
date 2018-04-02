@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ public class Controller implements Runnable{
     @FXML Button playButton;
 
     public void initialize(){
+        refreshDetails();
         //if (song.getStatus())
         volume.setValue(song.getSong().getVolume());
         volume.valueProperty().addListener(new InvalidationListener() {
@@ -44,23 +46,10 @@ public class Controller implements Runnable{
     public void refreshDetails(){
         artistLabel.setText(song.getArtist());
         songLabel.setText(song.getSongName());
-        albumCover.setImage(song.getAlbumCover());
+        albumCover.setImage(song.getAlbumArt());
     }
 
     //idea is to have a listener for the song's progress
-    @Override
-    public void run() {
-        double timeLeft =  song.getSong().getTotalDuration().toMillis() - song.getSong().getCurrentTime().toMillis();
-        while (song.getSong().getCurrentTime().toMillis()>0) {
-            System.out.println(song.getSong().getCurrentTime().toMillis());
-            songProg.setValue(song.getSong().getCurrentTime().toMillis());
-        }
-    }
-
-    //save's song to user library //might remove
-    @FXML public void saveSong(){
-
-    }
 
     //upload a song to the server
     @FXML public void uploadSong(){
@@ -81,7 +70,7 @@ public class Controller implements Runnable{
         song.editDetails();
         songLabel.setText(song.getSongName());
         artistLabel.setText(song.getArtist());
-        albumCover.setImage(song.getAlbumCover());
+        albumCover.setImage(song.getAlbumArt());
     }
 
     @FXML public void exit() throws FileNotFoundException {
@@ -94,8 +83,11 @@ public class Controller implements Runnable{
     }
 
     @FXML public void goBack(){
-
+        if (song.getSong().getCurrentTime().toMillis()>100) {
+            song.getSong().seek(new Duration(0));
+        }
     }
+
     @FXML public void playPause(){
         if (playing) {
             song.getSong().pause();
@@ -119,4 +111,8 @@ public class Controller implements Runnable{
 
     }
 
+    @Override
+    public void run() {
+
+    }
 }

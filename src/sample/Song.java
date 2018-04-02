@@ -2,7 +2,6 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,24 +15,23 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.regex.Pattern;
 
 public class Song {
     private String songName;
     private MediaPlayer song;
-    private String artist = "";
-    private String album = "";
+    private String artist;
     private File track;
-    private Image albumCover;
+    private Image albumArt;
 
     public Song(File file){
+        albumArt = new Image(new File("assets/defaultCover.png").toURI().toString());
         this.track = file;
          String temp[] = file.getName().split(Pattern.quote("."));
          this.songName = temp[0];
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
         song.setVolume(0.5);
-        song.play();
+        //song.play();
     }
     public Song(){
 
@@ -64,15 +62,6 @@ public class Song {
         gridPane.add(artistField,0,1);
 
 
-        TextField albumField = new TextField();
-        gridPane.setMargin(albumField, new Insets(10));
-        if (album.isEmpty()) {
-            albumField.setPromptText("Album");
-        } else {
-            albumField.setPromptText(album);
-        }
-        gridPane.add(albumField,0,2);
-
         Label cover=  new Label("Album Art");
         gridPane.setMargin(cover, new Insets(10));
         Button uploadPic = new Button("Select File");
@@ -98,7 +87,6 @@ public class Song {
             public void handle(ActionEvent event) {
                 songName = songField.getText();
                 artist = artistField.getText();
-                album = albumField.getText();
                 edit.close();
             }
         });
@@ -107,16 +95,12 @@ public class Song {
         edit.show();
     }
 
-    public String getAlbum() {
-        return album;
-    }
-
     public String getSongName() {
         return songName;
     }
 
-    public Image getAlbumCover(){
-        return albumCover;
+    public Image getAlbumArt(){
+        return albumArt;
     }
 
     public String getArtist() {

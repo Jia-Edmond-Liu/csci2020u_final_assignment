@@ -22,11 +22,9 @@
         <MenuBar fx:id="menuBar">
                 <Menu text="File">
                     <items>
-                        <MenuItem accelerator="Ctrl+S" onAction="#saveSong" text="Save Song" />
-                        <SeparatorMenuItem />
                         <MenuItem accelerator="Ctrl+O" onAction="#uploadSong" text="Upload Song" />
                         <SeparatorMenuItem />
-                        <MenuItem onAction="#editDetails" text="Edit Song Details" />
+                        <MenuItem onAction="#editDetails" text="Edit Details" />
                         <SeparatorMenuItem />
                         <MenuItem accelerator="Ctrl+Q" onAction="#exit" text="Exit Application" />
                     </items>
@@ -68,23 +66,26 @@
                         <Insets left="50.0" />
                      </GridPane.margin>
                   </Slider>
-                  <ImageView fx:id="albumCover" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ImageView fx:id="albumCover" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
+                        <GridPane.margin>
+                           <Insets left="20.0" top="18.0" />
+                        </GridPane.margin></ImageView>
                   <Slider fx:id="songProg" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="25.0" />
                      </GridPane.margin>
                   </Slider>
-                  <Label fx:id="songLabel" minHeight="-Infinity" minWidth="-Infinity" text="Song Name" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <Label fx:id="songLabel" minHeight="-Infinity" minWidth="-Infinity" text="Song Name" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                           <GridPane.margin>
-                              <Insets bottom="-25" />
+                              <Insets bottom="-20.0" />
                           </GridPane.margin>
                   </Label>
-                   <Label fx:id="artistLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Unknown Artist" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                   <Label fx:id="artistLabel" text="Unknown Artist"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                    <GridPane.margin>
-                       <Insets top="-50" />
+                       <Insets />
                    </GridPane.margin>
                    </Label>
-                     <Button mnemonicParsing="false" onAction="#share" text="Share" GridPane.columnIndex="4" GridPane.valignment="BOTTOM" />
+                     <Button alignment="CENTER" mnemonicParsing="false" onAction="#share" text="Share" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <Button mnemonicParsing="false" onAction="#goBack" text="Prev" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                    <!-- Make this one dynamic so changes between play pause-->
                      <Button fx:id="playButton" mnemonicParsing="false" onAction="#playPause" text="Play" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />

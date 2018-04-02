@@ -16,12 +16,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class Main extends Application {
     static Stage primaryStage;
     private static int port = 1209;
     private static String hostName = "127.0.0.1";
     private static Client client;
+    private static HashMap<String, String> users = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -46,8 +48,8 @@ public class Main extends Application {
         TextField textField = new TextField();
         textField.setPromptText("Enter Display Name");
         GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(80));
-        gridPane.add(imgView,0,0);
+        gridPane.setPadding(new Insets(50));
+        gridPane.add(imgView,0,0,3,1);
         gridPane.add(display,0,1);
         gridPane.add(textField, 1, 1);
         gridPane.add(submit,0,2, 3, 2);
@@ -55,7 +57,8 @@ public class Main extends Application {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         Stage splash = new Stage();
-        splash.setScene(new Scene(gridPane,560,520));
+        splash.setTitle("Set Name");
+        splash.setScene(new Scene(gridPane,500,450));
         splash.show();
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -65,6 +68,10 @@ public class Main extends Application {
                 primaryStage.show();
             }
         });
+    }
+
+    public static HashMap<String, String> getUserMap(){
+        return users;
     }
 
     public static int getPort(){

@@ -10,10 +10,9 @@ import java.util.Vector;
 
 public class Server extends Thread{
     private ServerSocket serverSocket;
-    private ObservableList<Thread> threads = FXCollections.observableArrayList();
 
     public Server() throws IOException {
-       this.serverSocket = new ServerSocket(Main.getPort());
+        this.serverSocket = new ServerSocket(Main.getPort());
     }
 
     @Override
@@ -44,8 +43,8 @@ public class Server extends Thread{
                 thread.add(clientNum, new Thread(new ClientConnectionHandler(socket)));
                 thread.get(clientNum).start();
                 clientNum++;
-                }
             }
+        }
         catch(Exception e){
             e.printStackTrace();
         }

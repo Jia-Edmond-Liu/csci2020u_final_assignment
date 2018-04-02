@@ -3,28 +3,26 @@ package sample;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.net.Socket;
+import java.util.HashMap;
 
 public class Client {
     private String displayName;
     private Song lastPlayed;
-    File userData;
+    private static File userData = new File("Server/userData");
+    private HashMap<String, String> userMap = Main.getUserMap();
 
     public Client(String displayName){
         this.displayName = displayName;
-        File users[] = new File("Server/Users").listFiles();
-        for (File user : users){
-            if (user.getName().equals(displayName)){
-                userData = user;
-            } else {
-                userData = new File(displayName);
-            }
-        }
+
     }
 
     public void setLastPlayed(Song lastPlayed) throws FileNotFoundException {
         this.lastPlayed = lastPlayed;
+        userMap.put(displayName, lastPlayed.getSongName());
+
         PrintWriter writer = new PrintWriter(userData);
-        writer.println(lastPlayed.getSongName());
+        writer.println(userMap);
+        writer.flush();
+        writer.close();
     }
 }
