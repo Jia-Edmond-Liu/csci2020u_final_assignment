@@ -15,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -41,6 +44,8 @@ public class Main extends Application {
 
         Server server = new Server();
        server.start();
+
+
 
         // LOGIN SCREEN
     }

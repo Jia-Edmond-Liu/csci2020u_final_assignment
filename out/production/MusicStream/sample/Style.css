@@ -1,3 +1,28 @@
-.button{
-    
+
+.button {
+    -fx-background-color:#c3c4c4,
+    linear-gradient(#d6d6d6 50%, white 100%),
+    radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-background-color: grey;
+}
+
+.vol {
+    -fx-background-color: black;
+}
+
+.box {
+    -fx-background-color:  linear-gradient(to bottom, #0066ff 0%, #ff66ff 100%);
+}
+
+ListView {
+    -fx-background-color:  grey;
+
 }

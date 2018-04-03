@@ -26,26 +26,27 @@ public class Song {
     private String artist;
     private File track;
     private static Image albumArt;
-    File art;
-    //Debug
-    // = new File("assets/default.png");
+    File art= new File("assets/defaultCover.png");
     private static boolean closed = false;
 
     public Song(File file){
+        albumArt = new Image(art.toURI().toString());
+
+       /* to set the album art initially but messed with default cover
         String fileName = file.getName().substring(0,file.getName().indexOf("."));
         try {
-            art = new File("assets/" + fileName + ".png");
-            System.out.println(art.getPath());
+                    art = new File("assets/" + fileName + ".png");
+                    System.out.println(art.getPath());
+                }
+             catch(Exception e){
+                        System.out.println("File doesnt exist.");
+                        e.printStackTrace();
         }
-        catch(Exception e){
-            System.out.println("File doesnt exist.");
-            e.printStackTrace();
-        }
-        albumArt = new Image(art.toURI().toString());
+        */
         this.track = file;
-        String temp[] = file.getName().split(Pattern.quote("."));
-        this.songName = temp[0];
-        this.artist = "Unknown Artist";
+         String temp[] = file.getName().split(Pattern.quote("."));
+         this.songName = temp[0];
+         this.artist = "Unknown Artist";
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
         song.setVolume(0.5);
         //song.play();

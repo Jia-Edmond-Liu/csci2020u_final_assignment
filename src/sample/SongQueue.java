@@ -20,27 +20,10 @@ public class SongQueue {
             filenames[i] = dir[i].getName();
         }
         songNameList = FXCollections.observableArrayList(filenames);
-        System.out.println(songNameList);
-        //Controller.setQueue(songNameList); //null????
-        //not sure if constructor is necessary at the moment
-        //nothing to initialize really
     }
 
     public ObservableList<String> getSongNameList() {
         return songNameList;
-    }
-
-    public String getQueuedSongs(){
-        String output = "";
-        for(int i = 0; i < queuedSongs.size();i++){
-            if(i < queuedSongs.size() - 1){
-                output += queuedSongs.get(i) + ";";
-            }
-            else{
-                output += queuedSongs.get(i);
-            }
-        }
-        return output;
     }
 
     public void addSong(Song song){

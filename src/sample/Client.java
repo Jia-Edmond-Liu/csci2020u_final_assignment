@@ -26,12 +26,16 @@ public class Client {
 
         PrintWriter writer = new PrintWriter("Userdata.txt");
         writer.write(String.valueOf(userMap));
+        writer.close();
 
+        /*
         ClientConnectionHandler cch = new ClientConnectionHandler(new Socket(Main.getHost(), Main.getPort()));
         cch.cmdUPLOAD_TEXT("Userdata.txt");
+    */
     }
 
     public ObservableList<String> getSongNameList() {
+        System.out.println(songQueue.getSongNameList());
         return songQueue.getSongNameList();
     }
 

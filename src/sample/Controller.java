@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class Controller implements Runnable{
     Stage primaryStage = Main.getStage();
-    Song song = new Song(new File("default.mp3")); //temp file to begin
+    Song song = new Song(new File("test.mp3")); //temp file to begin
     private static Client client = Main.getClient();
 
     boolean playing = false; //to test whether the button plays or pauses audio
@@ -41,6 +41,7 @@ public class Controller implements Runnable{
 
         songProg.setMax(song.getSong().getTotalDuration().toMillis() / 1000);
 
+        //volume listener to adjust
         volume.setValue(song.getSong().getVolume());
         volume.valueProperty().addListener(new InvalidationListener() {
             @Override
@@ -50,6 +51,7 @@ public class Controller implements Runnable{
         });
     }
 
+    //function to update seekbar on song progress
     public void setSongProg() {
         song.getSong().currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
@@ -67,6 +69,7 @@ public class Controller implements Runnable{
     }
 
 
+    //refreshse all the fields
     public void refreshDetails(){
         artistLabel.setText(song.getArtist());
         songLabel.setText(song.getSongName());
@@ -86,22 +89,19 @@ public class Controller implements Runnable{
         //set the global song object
         song = new Song(new File(track.getPath()));
         songLabel.setText(song.getSongName());
-        //commented out for debugging
         //song.uploadTrack();
         run();
     }
 
+    //edit id3 tags for song
     @FXML public void editDetails(){
         song.editDetails();
         refreshDetails();
     }
 
-    //TO DO doesnt work
+    //menu option to exit application safely
     @FXML public void exit() throws IOException {
-        Client t = new Client("temp");
-        t.setLastPlayed(song);
-        System.out.println(client.getDisplayName());
-        primaryStage.close();
+        Main.getStage().close();
     }
 
     @FXML public void goBack(){
@@ -127,16 +127,17 @@ public class Controller implements Runnable{
         Main.getStage().close();
     }
 
+    //supposed to set the listview at bottom of ui to the queue
     public static void setQueue(){
-        System.out.println(client.getDisplayName());
-        queue.setItems(client.getSongNameList());
+          queue.setItems(client.getSongNameList());
     }
 
-
+    //move forward in queue
     @FXML public void goForward(){
 
     }
 
+    //
     @FXML public void addFriend(){
 
     }
