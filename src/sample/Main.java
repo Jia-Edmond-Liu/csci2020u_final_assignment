@@ -15,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -23,23 +26,34 @@ public class Main extends Application {
     private static int port = 1209;
     private static String hostName = "127.0.0.1";
     private static Client client;
-    private static HashMap<String, String> users = new HashMap<>();
+    private static HashMap<String, String> users;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        client = new Client("DEFAULT");
+        showSplashScreen();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         Parent root = (Parent)loader.load();
         root.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
         Controller controller = (Controller)loader.getController();
-
-        showSplashScreen();
+        File temp = new File("Userdata.txt");
+        if (temp.exists()){
+            FileReader fr = new FileReader(temp);
+            BufferedReader in = new BufferedReader(fr);
+            String line = null;
+            String input[];
+        } else {
+             users = new HashMap<>();
+        }
 
         primaryStage.setTitle("Fresh Music Stream");
         this.primaryStage = primaryStage;
         primaryStage.setScene(new Scene(root));
 
         Server server = new Server();
-        server.start();
+       server.start();
+
+
 
         // LOGIN SCREEN
     }
@@ -69,8 +83,10 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 splash.close();
-                client = new Client(textField.getText());
+                client.setDisplayName(textField.getText());
+                primaryStage.setTitle("Fresh Music Stream: " + textField.getText());
                 primaryStage.show();
+                //Controller.setQueue();
             }
         });
     }

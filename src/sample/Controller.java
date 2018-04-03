@@ -1,7 +1,11 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,23 +30,16 @@ public class Controller implements Runnable{
     @FXML ImageView albumCover; //might remove altogether
     @FXML Label artistLabel;
     @FXML Label songLabel;
-    @FXML ListView friendList;
-    @FXML ListView queue;
+    @FXML ListView userList;
+    @FXML static ListView queue;
     @FXML Slider volume;
     @FXML Slider songProg;
     @FXML Button playButton;
 
     public void initialize(){
         refreshDetails();
-        //if (song.getStatus())
-        songProg.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                if (songProg.isValueChanging()){
-                    song.getSong().seek(new Duration(songProg.getValue()/100.0));
-                }
-            }
-        });
+
+        songProg.setMax(song.getSong().getTotalDuration().toMillis() / 1000);
 
         volume.setValue(song.getSong().getVolume());
         volume.valueProperty().addListener(new InvalidationListener() {
@@ -52,6 +49,23 @@ public class Controller implements Runnable{
             }
         });
     }
+
+    public void setSongProg() {
+        song.getSong().currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        Duration currentTime = song.getSong().getCurrentTime();
+                        if (!songProg.isValueChanging()) {
+                            songProg.setValue(newValue.toMillis() / 1000);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
 
     public void refreshDetails(){
         artistLabel.setText(song.getArtist());
@@ -81,17 +95,18 @@ public class Controller implements Runnable{
         refreshDetails();
     }
 
-    //TO DO doesnt work
     @FXML public void exit() throws IOException {
         Client t = new Client("temp");
         t.setLastPlayed(song);
         System.out.println(client.getDisplayName());
-        primaryStage.close();
+        Main.getStage().close();
     }
 
     @FXML public void goBack(){
         if (song.getSong().getCurrentTime().toMillis()>100) {
             song.getSong().seek(new Duration(0));
+        } else {
+            client.getSongNameList();
         }
     }
 
@@ -112,16 +127,23 @@ public class Controller implements Runnable{
         Main.getStage().close();
     }
 
-    @FXML public void addFriend(){
-
+    public static void setQueue(){
+        System.out.println(client.getDisplayName());
+        queue.setItems(client.getSongNameList());
     }
+
 
     @FXML public void goForward(){
 
     }
 
+    @FXML public void addFriend(){
+
+    }
+
     @Override
     public void run() {
-
+        refreshDetails();
+        setSongProg();
     }
 }

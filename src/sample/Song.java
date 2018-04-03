@@ -27,13 +27,14 @@ public class Song {
     private File track;
     private static Image albumArt;
     File art = new File("assets/defaultCover.png");
+    private static boolean closed = false;
 
     public Song(File file){
         albumArt = new Image(art.toURI().toString());
         this.track = file;
-        String temp[] = file.getName().split(Pattern.quote("."));
-        this.songName = temp[0];
-        this.artist = "Unknown Artist";
+         String temp[] = file.getName().split(Pattern.quote("."));
+         this.songName = temp[0];
+         this.artist = "Unknown Artist";
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
         song.setVolume(0.5);
         //song.play();
@@ -48,7 +49,7 @@ public class Song {
         edit.setTitle("Change Song Details");
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20));
-
+        closed=false;
         TextField songField = new TextField();
         gridPane.setMargin(songField, new Insets(10));
         if (songName.isEmpty()) {
@@ -81,13 +82,10 @@ public class Song {
         uploadPic.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Pictures", ".png", ".jpeg",".jpg"));
                 fileChooser.setInitialDirectory(new File("."));
                 art = fileChooser.showOpenDialog(edit);
-                System.out.println(art.toURI().toString());
-
             }
         });
 
@@ -96,10 +94,12 @@ public class Song {
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("???");
                 songName = songField.getText();
                 artist = artistField.getText();
                 System.out.println(art.toURI().toString());
                 setAlbumArt(new Image(art.toURI().toString()));
+                setClosed(true);
                 edit.close();
             }
         });
@@ -134,4 +134,12 @@ public class Song {
         cch.cmdDOWNLOAD_MEDIA(songName);
     }
 
+    public static boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean status){
+        closed = status;
+
+    }
 }

@@ -40,16 +40,16 @@ public class ClientConnectionHandler implements Runnable {
     private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
         File file = new File("Client",fileName);
         String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
-        try
-        {
+        try {
             OutputStream out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
             dout.writeUTF(extension);
             out.flush();
-
             FileInputStream in = new FileInputStream(file);
             BufferedInputStream bin = new BufferedInputStream(in);
-            byte[] bytes = new byte[16*1024];
+            //Debug line
+            System.out.println("Sending bytes");
+            byte[] bytes = new byte[(int)(file.length())];
             bin.read(bytes,0,bytes.length);
             out.write(bytes,0,bytes.length);
             out.close();
