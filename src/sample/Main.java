@@ -27,10 +27,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        client = new Client("DEFAULT");
+        showSplashScreen();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         Parent root = (Parent)loader.load();
         root.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
         Controller controller = (Controller)loader.getController();
+
 
         primaryStage.setTitle("Fresh Music Stream");
         this.primaryStage = primaryStage;
@@ -40,11 +43,10 @@ public class Main extends Application {
        server.start();
 
         // LOGIN SCREEN
-        showSplashScreen();
     }
 
     public static void showSplashScreen(){
-        File art = new File("assets/black.jpg");
+        File art = new File("assets/splash.png");
         ImageView imgView = new ImageView(new Image(art.toURI().toString()));
         imgView.setFitHeight(250);
         Button submit = new Button("Begin");
@@ -68,8 +70,10 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 splash.close();
-                client = new Client(textField.getText());
+                client.setDisplayName(textField.getText());
+                primaryStage.setTitle("Fresh Music Stream: " + textField.getText());
                 primaryStage.show();
+                //Controller.setQueue();
             }
         });
     }

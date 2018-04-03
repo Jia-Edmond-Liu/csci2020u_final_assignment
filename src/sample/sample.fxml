@@ -74,7 +74,7 @@
                         <GridPane.margin>
                            <Insets left="20.0" top="18.0" />
                         </GridPane.margin></ImageView>
-                  <Slider fx:id="songProg" max="100" maxHeight="-Infinity" maxWidth="-Infinity" min="0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                  <Slider fx:id="songProg" maxHeight="-Infinity" maxWidth="-Infinity" min="0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets bottom="25.0" />
                      </GridPane.margin>
@@ -89,7 +89,6 @@
                        <Insets />
                    </GridPane.margin>
                    </Label>
-                     <Button alignment="CENTER" mnemonicParsing="false" onAction="#share" text="Share" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <Button mnemonicParsing="false" onAction="#goBack" text="Prev" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                    <!-- Make this one dynamic so changes between play pause-->
                      <Button fx:id="playButton" mnemonicParsing="false" onAction="#playPause" text="Play" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />

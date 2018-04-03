@@ -1,14 +1,11 @@
 package sample;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import java.io.*;
-import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientConnectionHandler implements Runnable {
-    public static String ROOT = "[INSERT ROOT HERE]/";
+    public static String ROOT = "Server";
     private Socket socket;
     private PrintWriter socket_out;
 
@@ -40,52 +37,24 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-    public void cmdUPLOAD_MEDIA(String fileName) throws IOException{
-        File file = new File("Server/Music",fileName);
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        else{
-            file.delete();
-            file.createNewFile();
-        }
+    private void cmdUPLOAD_MEDIA(String fileName) throws IOException{
+        File file = new File("Client",fileName);
         String extension=  fileName.substring(fileName.lastIndexOf(".") + 1);
-        try
-        {
+        try {
             OutputStream out = socket.getOutputStream();
             DataOutputStream dout = new DataOutputStream(out);
             dout.writeUTF(extension);
             out.flush();
-            dout.flush();
 
-            AudioInputStream in= AudioSystem.getAudioInputStream(new File("test.mp3"));
-            System.out.println("caught");
-            AudioInputStream din = null;
-            AudioFormat baseFormat = in.getFormat();
-            AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                    baseFormat.getSampleRate(),
-                    16,
-                    baseFormat.getChannels(),
-                    baseFormat.getChannels() * 2,
-                    baseFormat.getSampleRate(),
-                    false);
-            din = AudioSystem.getAudioInputStream(decodedFormat, in);
-
-            while (true){
-                int currentByte = din.read();
-                if (currentByte == -1) break;
-
-                out.write(currentByte);
-            }            /*
             FileInputStream in = new FileInputStream(file);
             BufferedInputStream bin = new BufferedInputStream(in);
-            byte[] bytes = new byte[(int)file.length()];
+            byte[] bytes = new byte[16*1024];
             bin.read(bytes,0,bytes.length);
             out.write(bytes,0,bytes.length);
             out.close();
             dout.close();
             in.close();
-*/
+
         }
         catch(IOException e){
             System.out.println("IO Error");
@@ -95,23 +64,16 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
-/*
 
-//THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
+
+    //THESE FUNCTIONS ARE USED FOR SENDING TEXT FILES THROUGH CHAT
     public void cmdUPLOAD_TEXT(String fileName) throws IOException{
         try{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             String response;
-            File tempFile = new File("[INSERT LOCATION TO UPLOAD HERE", fileName);
-            if (!tempFile.exists()){
-                tempFile.createNewFile();
-            }
-            else{
-                tempFile.delete();
-                tempFile.createNewFile();
-            }
-            System.out.print(tempFile.getParent());
+            File tempFile = new File(ROOT, fileName);
+
             PrintWriter socket_out = new PrintWriter(tempFile);
             while((response = in.readLine()) != null){
                 socket_out.println(response);
@@ -125,6 +87,27 @@ public class ClientConnectionHandler implements Runnable {
         }
     }
 
+    public void cmdDOWNLOAD_MEDIA(String fileName) throws IOException{
+        int count;
+        try{
+            //Socket socket = new Socket(Main.getHost(), Main.getPort());
+            InputStream in = socket.getInputStream();
+            byte[] bytes = new byte[16*1024];
+            DataInputStream din = new DataInputStream(socket.getInputStream());
+            String extension = din.readUTF();
+            String path =  ROOT + "/Music/" + fileName + "." + extension;
+            File file = new File(path);
+            OutputStream out = new FileOutputStream(file);
+            while((count = in.read(bytes))>0){
+                out.write(bytes,0,count);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     private void cmdDownload_TEXT(String fileName) throws IOException{
         String out = "", line = "";
         File file = new File(ROOT, fileName);
@@ -135,12 +118,5 @@ public class ClientConnectionHandler implements Runnable {
         socket_out.print(out);
         socket_out.flush();
     }
-
-
-    private  void connectToServer()throws IOException{
-        socket = new Socket(InetAddress.getByName(socket.getInetAddress()),Main.getPort());
-    }
-    */
-
 
 }

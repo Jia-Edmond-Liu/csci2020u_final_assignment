@@ -1,42 +1,45 @@
 package sample;
 
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 
 public class Client {
     private String displayName;
     private Song lastPlayed;
     private static File userData = new File("Server/Data/userdata.txt");
     private HashMap<String, String> userMap = Main.getUserMap();
+    private SongQueue songQueue;
 
     public Client(String displayName){
         this.displayName = displayName;
-
+        File[] dir = new File("Server/Music").listFiles();
+        songQueue=new SongQueue(dir);
     }
 
-    public void setLastPlayed(Song lastPlayed) throws FileNotFoundException {
+    public void setLastPlayed(Song lastPlayed) throws IOException {
         this.lastPlayed = lastPlayed;
         userMap.put(displayName, lastPlayed.getSongName());
 
-        Socket socket = null;
-        try {
-            socket = new Socket(Main.getHost(), Main.getPort());
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            if (userData.exists()){
-                userData.delete();
-            }
-            userData.createNewFile();
+        PrintWriter writer = new PrintWriter("Userdata.txt");
+        writer.write(String.valueOf(userMap));
 
-            String line;
-            PrintWriter socket_out = new PrintWriter(userData);
-            writer.println(userMap);
-            writer.flush();
-            writer.close();
+        ClientConnectionHandler cch = new ClientConnectionHandler(new Socket(Main.getHost(), Main.getPort()));
+        cch.cmdUPLOAD_TEXT("Userdata.txt");
+    }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ObservableList<String> getSongNameList() {
+        return songQueue.getSongNameList();
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }
