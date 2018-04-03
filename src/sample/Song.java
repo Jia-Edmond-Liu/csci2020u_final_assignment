@@ -81,6 +81,7 @@ public class Song {
         uploadPic.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Pictures", ".png", ".jpeg",".jpg"));
                 fileChooser.setInitialDirectory(new File("."));

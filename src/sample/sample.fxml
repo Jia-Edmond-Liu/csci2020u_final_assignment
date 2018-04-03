@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import java.net.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <top>
@@ -39,19 +40,19 @@
         </MenuBar>
     </top>
     <center>
-        <SplitPane dividerPositions="0.5">
-            <items>
+        <SplitPane dividerPositions="0.5" styleClass="box">
+            <items >
                 <ListView fx:id="friendList" maxWidth="-Infinity" prefWidth="180.0" />
-                <VBox>
+                <VBox styleClass="box">
                     <GridPane minHeight="350" prefWidth="400.0">
-                        <columnConstraints>
+                        <columnConstraints >
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         </columnConstraints>
-                        <rowConstraints>
+                        <rowConstraints >
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -61,7 +62,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         </rowConstraints>
                         <children>
-                            <Slider fx:id="volume" max="1.0" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" GridPane.rowIndex="1">
+                            <Slider fx:id="volume" max="1.0" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" styleClass="vol" GridPane.rowIndex="1">
                                 <GridPane.margin>
                                     <Insets left="50.0" />
                                 </GridPane.margin>
@@ -89,7 +90,7 @@
                                     <Insets />
                                 </GridPane.margin>
                             </Label>
-                            <Button mnemonicParsing="false" onAction="#goBack" text="Prev" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+                            <Button mnemonicParsing="false" onAction="#goBack" styleClass="button" text="Prev" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                             <!-- Make this one dynamic so changes between play pause-->
                             <Button fx:id="playButton" mnemonicParsing="false" onAction="#playPause" text="Play" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                             <Button mnemonicParsing="false" onAction="#goForward" text="Next" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
@@ -100,4 +101,7 @@
                 </VBox>
             </items></SplitPane>
     </center>
+    <stylesheets>
+        <URL value = "@Style.css" />
+    </stylesheets>
 </BorderPane>
