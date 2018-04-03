@@ -26,10 +26,21 @@ public class Song {
     private String artist;
     private File track;
     private static Image albumArt;
-    File art = new File("assets/defaultCover.png");
+    File art;
+    //Debug
+    // = new File("assets/default.png");
     private static boolean closed = false;
 
     public Song(File file){
+        String fileName = file.getName().substring(0,file.getName().indexOf("."));
+        try {
+            art = new File("assets/" + fileName + ".png");
+            System.out.println(art.getPath());
+        }
+        catch(Exception e){
+            System.out.println("File doesnt exist.");
+            e.printStackTrace();
+        }
         albumArt = new Image(art.toURI().toString());
         this.track = file;
         String temp[] = file.getName().split(Pattern.quote("."));

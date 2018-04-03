@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class Controller implements Runnable{
     Stage primaryStage = Main.getStage();
-    Song song = new Song(new File("test.mp3")); //temp file to begin
+    Song song = new Song(new File("default.mp3")); //temp file to begin
     private static Client client = Main.getClient();
 
     boolean playing = false; //to test whether the button plays or pauses audio
