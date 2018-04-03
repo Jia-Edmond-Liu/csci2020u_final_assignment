@@ -79,14 +79,15 @@ public class Controller implements Runnable{
     @FXML public void uploadSong() throws IOException {
         //choose a song to upload
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("."));
+        fileChooser.setInitialDirectory(new File("/Users"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Audio","*.mp3"));
         File track = fileChooser.showOpenDialog(primaryStage);
 
         //set the global song object
-        song = new Song(track);
+        song = new Song(new File(track.getPath()));
         songLabel.setText(song.getSongName());
-        song.uploadTrack();
+        //commented out for debugging
+        //song.uploadTrack();
         run();
     }
 

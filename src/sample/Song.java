@@ -32,9 +32,9 @@ public class Song {
     public Song(File file){
         albumArt = new Image(art.toURI().toString());
         this.track = file;
-         String temp[] = file.getName().split(Pattern.quote("."));
-         this.songName = temp[0];
-         this.artist = "Unknown Artist";
+        String temp[] = file.getName().split(Pattern.quote("."));
+        this.songName = temp[0];
+        this.artist = "Unknown Artist";
         this.song = new MediaPlayer(new Media(file.toURI().toString()));
         song.setVolume(0.5);
         //song.play();
@@ -131,6 +131,8 @@ public class Song {
     public void uploadTrack() throws IOException {
         Socket socket = new Socket(Main.getHost(), Main.getPort());
         ClientConnectionHandler cch = new ClientConnectionHandler(socket);
+        //Debug line
+        System.out.println("Sending cmdDownload_Media");
         cch.cmdDOWNLOAD_MEDIA(songName);
     }
 
